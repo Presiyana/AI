@@ -65,6 +65,7 @@ public class Board {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 System.out.print("|" + board[i][j]);
             }
+
             System.out.print("|");
             System.out.println();
             System.out.print("–––––––");

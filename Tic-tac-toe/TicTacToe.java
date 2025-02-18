@@ -23,16 +23,17 @@ public class TicTacToe {
             System.out.println("No more winning strategies...no need to proceed. Nobody wins!");
             return false;
         }
+
         int bestScore = Integer.MIN_VALUE;
         int row = -1, col = -1;
 
-        for(int i = 0; i < board.BOARD_SIZE; i++){
-            for(int j = 0; j < board.BOARD_SIZE; j++){
-                if(board.board[i][j] == ' '){
+        for(int i = 0; i < board.BOARD_SIZE; i++) {
+            for(int j = 0; j < board.BOARD_SIZE; j++) {
+                if(board.board[i][j] == ' ') {
                     board.board[i][j] = 'O';
                     int score = minimax(board, 0, false, Integer.MIN_VALUE, Integer.MAX_VALUE);
                     board.board[i][j] = ' ';
-                    if(score > bestScore){
+                    if(score > bestScore) {
                         bestScore = score;
                         row = i;
                         col = j;
@@ -44,25 +45,27 @@ public class TicTacToe {
         board.board[row][col] = 'O';
         System.out.println("Computer's move: ");
         board.printBoard();
+
         return true;
     }
 
-    boolean earlyGameTermination(Board board){
+    boolean earlyGameTermination(Board board) {
+
         return board.countBlankSpaces() <= board.BOARD_SIZE && !checkWinningMove(board);
     }
 
-    boolean checkWinningMove(Board board){
+    boolean checkWinningMove(Board board) {
 
-        for(int i = 0; i < board.BOARD_SIZE; i++){
-            for(int j = 0; j < board.BOARD_SIZE; j++){
-                if(board.board[i][j] == ' '){
+        for(int i = 0; i < board.BOARD_SIZE; i++) {
+            for(int j = 0; j < board.BOARD_SIZE; j++) {
+                if(board.board[i][j] == ' ') {
                     board.board[i][j] ='X';
-                    if(isPlayerWinner(board)){
+                    if(isPlayerWinner(board)) {
                         board.board[i][j] = ' ';
                         return true;
                     }
                     board.board[i][j] = 'O';
-                    if(isComputerWinner(board)){
+                    if(isComputerWinner(board)) {
                         board.board[i][j] = ' ';
                         return true;
                     }
@@ -122,11 +125,11 @@ public class TicTacToe {
         if(board.isFullBoard()) return 0;
 
         int bestValue;
-        if(maximizingPlayer){
+        if(maximizingPlayer) {
             bestValue = Integer.MIN_VALUE;
-            for(int i = 0; i < board.BOARD_SIZE; i++){
-                for(int j = 0 ; j < board.BOARD_SIZE; j++){
-                    if(board.board[i][j] == ' '){
+            for(int i = 0; i < board.BOARD_SIZE; i++) {
+                for(int j = 0 ; j < board.BOARD_SIZE; j++) {
+                    if(board.board[i][j] == ' ') {
                         board.board[i][j] = 'O';
                         int compute = minimax(board, depth + 1, false, alpha, beta);
                         board.board[i][j] = ' ';
@@ -140,7 +143,7 @@ public class TicTacToe {
             bestValue = Integer.MAX_VALUE;
             for(int i = 0; i < board.BOARD_SIZE; i++) {
                 for(int j = 0; j < board.BOARD_SIZE; j++) {
-                    if(board.board[i][j] == ' '){
+                    if(board.board[i][j] == ' ') {
                         board.board[i][j] = 'X';
                         int compute = minimax(board, depth +1, true, alpha, beta);
                         board.board[i][j] = ' ';
@@ -151,6 +154,7 @@ public class TicTacToe {
                 }
             }
         }
+
         return bestValue;
     }
 
@@ -190,7 +194,7 @@ public class TicTacToe {
 
         do {
             System.out.println("Choose weather the computer or the player owns the first move" +
-                    " (enter 0 for the computer and 1 for the player: ");
+                    " (enter 0 for the computer and 1 for the player): ");
             Scanner scanner = new Scanner(System.in);
             firstMove = scanner.nextInt();
         } while(!(firstMove == 0 || firstMove == 1));
