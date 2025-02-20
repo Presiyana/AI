@@ -1,4 +1,4 @@
-package ai.course.frog.puzzle;
+package course.ai.frog.puzzle;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
