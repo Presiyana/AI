@@ -1,5 +1,6 @@
-public class Board {
+package course.ai.tictactoe.game;
 
+public class Board {
     int BOARD_SIZE = 3;
     char[][] board = new char[BOARD_SIZE][BOARD_SIZE];
 
@@ -11,7 +12,7 @@ public class Board {
         }
     }
 
-    boolean checkAlreadyBusy(int row, int col){
+    boolean checkAlreadyBusy(int row, int col) {
         return board[row - 1][col - 1] != ' ';
     }
 
@@ -43,12 +44,12 @@ public class Board {
         return isFull;
     }
 
-    int countBlankSpaces(){
+    int countBlankSpaces() {
         int counter = 0;
 
-        for(int i = 0; i < BOARD_SIZE; i++){
-            for(int j = 0; j < BOARD_SIZE; j++){
-                if(board[i][j] == ' '){
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (board[i][j] == ' ') {
                     counter++;
                 }
             }

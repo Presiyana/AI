@@ -1,4 +1,7 @@
+package course.ai.tictactoe.game;
+
 import java.util.Scanner;
+
 public class TicTacToe {
 
     void player(Board board) {
@@ -10,7 +13,7 @@ public class TicTacToe {
                     "(both numbers can be 1, 2 or 3 and you can not mark board spaces, which are already busy): ");
             row = scanner.nextInt();
             col = scanner.nextInt();
-        } while(row < 1 || col < 1 || row > 3 || col > 3 || board.checkAlreadyBusy(row, col));
+        } while (row < 1 || col < 1 || row > 3 || col > 3 || board.checkAlreadyBusy(row, col));
 
         board.modifyBoard(row, col);
         System.out.println("Your move: ");
@@ -18,8 +21,7 @@ public class TicTacToe {
     }
 
     boolean computer(Board board) {
-
-        if(earlyGameTermination(board)) {
+        if (earlyGameTermination(board)) {
             System.out.println("No more winning strategies...no need to proceed. Nobody wins!");
             return false;
         }
@@ -27,13 +29,13 @@ public class TicTacToe {
         int bestScore = Integer.MIN_VALUE;
         int row = -1, col = -1;
 
-        for(int i = 0; i < board.BOARD_SIZE; i++) {
-            for(int j = 0; j < board.BOARD_SIZE; j++) {
-                if(board.board[i][j] == ' ') {
+        for (int i = 0; i < board.BOARD_SIZE; i++) {
+            for (int j = 0; j < board.BOARD_SIZE; j++) {
+                if (board.board[i][j] == ' ') {
                     board.board[i][j] = 'O';
                     int score = minimax(board, 0, false, Integer.MIN_VALUE, Integer.MAX_VALUE);
                     board.board[i][j] = ' ';
-                    if(score > bestScore) {
+                    if (score > bestScore) {
                         bestScore = score;
                         row = i;
                         col = j;
@@ -50,22 +52,20 @@ public class TicTacToe {
     }
 
     boolean earlyGameTermination(Board board) {
-
         return board.countBlankSpaces() <= board.BOARD_SIZE && !checkWinningMove(board);
     }
 
     boolean checkWinningMove(Board board) {
-
-        for(int i = 0; i < board.BOARD_SIZE; i++) {
-            for(int j = 0; j < board.BOARD_SIZE; j++) {
-                if(board.board[i][j] == ' ') {
-                    board.board[i][j] ='X';
-                    if(isPlayerWinner(board)) {
+        for (int i = 0; i < board.BOARD_SIZE; i++) {
+            for (int j = 0; j < board.BOARD_SIZE; j++) {
+                if (board.board[i][j] == ' ') {
+                    board.board[i][j] = 'X';
+                    if (isPlayerWinner(board)) {
                         board.board[i][j] = ' ';
                         return true;
                     }
                     board.board[i][j] = 'O';
-                    if(isComputerWinner(board)) {
+                    if (isComputerWinner(board)) {
                         board.board[i][j] = ' ';
                         return true;
                     }
@@ -90,7 +90,7 @@ public class TicTacToe {
 
         //horizontals
         for (int i = 0; i < board.BOARD_SIZE; i++) {
-            if (board.board[i][0] == mark && board.board[i][1] == mark && board.board[i][2] == mark){
+            if (board.board[i][0] == mark && board.board[i][1] == mark && board.board[i][2] == mark) {
                 isWinner = true;
                 break;
             }
@@ -98,7 +98,7 @@ public class TicTacToe {
 
         //verticals
         for (int j = 0; j < board.BOARD_SIZE; j++) {
-            if(board.board[0][j] == mark && board.board[1][j] == mark && board.board[2][j] == mark){
+            if (board.board[0][j] == mark && board.board[1][j] == mark && board.board[2][j] == mark) {
                 isWinner = true;
                 break;
             }
@@ -106,12 +106,12 @@ public class TicTacToe {
 
         //diagonals:
         //diagonal 1
-        if(board.board[0][0] == mark && board.board[1][1] == mark && board.board[2][2] == mark) {
+        if (board.board[0][0] == mark && board.board[1][1] == mark && board.board[2][2] == mark) {
             isWinner = true;
         }
 
         //diagonal 2
-        if(board.board[0][2] == mark && board.board[1][1] == mark && board.board[2][0] == mark) {
+        if (board.board[0][2] == mark && board.board[1][1] == mark && board.board[2][0] == mark) {
             isWinner = true;
         }
 
@@ -119,37 +119,36 @@ public class TicTacToe {
     }
 
     int minimax(Board board, int depth, boolean maximizingPlayer, int alpha, int beta) {
-
-        if(isPlayerWinner(board)) return depth - 10;
-        if(isComputerWinner(board)) return 10 - depth;
-        if(board.isFullBoard()) return 0;
+        if (isPlayerWinner(board)) return depth - 10;
+        if (isComputerWinner(board)) return 10 - depth;
+        if (board.isFullBoard()) return 0;
 
         int bestValue;
-        if(maximizingPlayer) {
+        if (maximizingPlayer) {
             bestValue = Integer.MIN_VALUE;
-            for(int i = 0; i < board.BOARD_SIZE; i++) {
-                for(int j = 0 ; j < board.BOARD_SIZE; j++) {
-                    if(board.board[i][j] == ' ') {
+            for (int i = 0; i < board.BOARD_SIZE; i++) {
+                for (int j = 0; j < board.BOARD_SIZE; j++) {
+                    if (board.board[i][j] == ' ') {
                         board.board[i][j] = 'O';
                         int compute = minimax(board, depth + 1, false, alpha, beta);
                         board.board[i][j] = ' ';
                         bestValue = Math.max(bestValue, compute);
                         alpha = Math.max(alpha, compute);
-                        if(beta <= alpha) return bestValue;
+                        if (beta <= alpha) return bestValue;
                     }
                 }
             }
         } else {
             bestValue = Integer.MAX_VALUE;
-            for(int i = 0; i < board.BOARD_SIZE; i++) {
-                for(int j = 0; j < board.BOARD_SIZE; j++) {
-                    if(board.board[i][j] == ' ') {
+            for (int i = 0; i < board.BOARD_SIZE; i++) {
+                for (int j = 0; j < board.BOARD_SIZE; j++) {
+                    if (board.board[i][j] == ' ') {
                         board.board[i][j] = 'X';
-                        int compute = minimax(board, depth +1, true, alpha, beta);
+                        int compute = minimax(board, depth + 1, true, alpha, beta);
                         board.board[i][j] = ' ';
                         bestValue = Math.min(bestValue, compute);
                         beta = Math.min(beta, compute);
-                        if(beta <= alpha) return bestValue;
+                        if (beta <= alpha) return bestValue;
                     }
                 }
             }
@@ -164,12 +163,11 @@ public class TicTacToe {
         board.printBoard();
         int nextMove = firstMove;
 
-
         while (true) {
             if (nextMove % 2 != 0) {
                 player(board);
             } else {
-                if(!computer(board)) {
+                if (!computer(board)) {
                     break;
                 }
             }
@@ -180,13 +178,11 @@ public class TicTacToe {
             } else if (isPlayerWinner(board)) {
                 System.out.println("Congratulations! You are better! You win!");
                 break;
-            }
-            else if (board.isFullBoard()) {
+            } else if (board.isFullBoard()) {
                 System.out.println("Nobody wins!");
                 break;
             }
         }
-
     }
 
     public static void main(String[] args) {
@@ -197,7 +193,7 @@ public class TicTacToe {
                     " (enter 0 for the computer and 1 for the player): ");
             Scanner scanner = new Scanner(System.in);
             firstMove = scanner.nextInt();
-        } while(!(firstMove == 0 || firstMove == 1));
+        } while (!(firstMove == 0 || firstMove == 1));
 
         TicTacToe game = new TicTacToe();
         game.play(firstMove);
